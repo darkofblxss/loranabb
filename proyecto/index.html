@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Interactiva para Lorena</title>
+    <style>
+        /* Estilo general del body */
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Dancing Script', cursive; /* Fuente romántica tipo carta */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        /* Capa de fondo con la imagen floral */
+        .image-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -3;
+            background-image: url('flor.png');
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease;
+        }
+
+        /* Capa de fondo con flores animadas */
+        .background-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+            background-color: #f8d7f8;
+            overflow: hidden;
+        }
+
+        .flower-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: flower-animation 8s infinite;
+        }
+
+        /* Animación de las flores en el fondo */
+        @keyframes flower-animation {
+            0% { background-image: radial-gradient(circle, rgba(255, 192, 203, 0.3) 10%, rgba(255, 182, 193, 0.3) 50%); }
+            25% { background-image: radial-gradient(circle, rgba(255, 192, 203, 0.5) 10%, rgba(255, 182, 193, 0.4) 50%); }
+            50% { background-image: radial-gradient(circle, rgba(255, 182, 193, 0.5) 10%, rgba(255, 192, 203, 0.5) 50%); }
+            75% { background-image: radial-gradient(circle, rgba(255, 192, 203, 0.4) 10%, rgba(255, 182, 193, 0.4) 50%); }
+            100% { background-image: radial-gradient(circle, rgba(255, 192, 203, 0.3) 10%, rgba(255, 182, 193, 0.3) 50%); }
+        }
+
+        /* Estilo de la carta */
+        .card {
+            position: relative;
+            width: 60%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            overflow: auto;
+            max-height: 90%;
+            margin-top: 20px;
+        }
+
+        /* Estilo para la barra de la contraseña */
+        #passwordForm {
+            z-index: 2;
+            text-align: center;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        /* Estilo para la caja de contraseña */
+        input[type="password"] {
+            padding: 10px;
+            font-size: 18px;
+            width: 70%;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* Estilo para el botón */
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilo para el mensaje de la carta */
+        #message {
+            font-size: 18px;
+            white-space: pre-wrap;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Capa de fondo con imagen floral -->
+    <div class="image-background" id="imageBackground"></div>
+
+    <!-- Capa de fondo con flores animadas -->
+    <div class="background-layer">
+        <div class="flower-lines"></div>
+    </div>
+
+    <!-- Formulario para la contraseña -->
+    <div id="passwordForm">
+        <h2>Introduce la contraseña para abrir la carta:</h2>
+        <input type="password" id="password" placeholder="Escribe tu contraseña...">
+        <button class="button" onclick="checkPassword()">Abrir carta</button>
+        <p id="attempts"></p>
+    </div>
+
+    <!-- Carta con el mensaje -->
+    <div class="card" id="letterCard">
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const correctPassword = "Rawr";
+        let attempts = 0;
+        const maxAttempts = 3;
+
+        function checkPassword() {
+            const passwordInput = document.getElementById('password').value;
+            const attemptsText = document.getElementById('attempts');
+            if (passwordInput === correctPassword) {
+                document.getElementById('passwordForm').style.display = "none";
+                document.getElementById('letterCard').classList.add('active');
+                document.getElementById('imageBackground').style.backgroundImage = "url('flor.gif')"; // Cambiar imagen a GIF
+                typeWriter();
+            } else {
+                attempts++;
+                if (attempts >= maxAttempts) {
+                    attemptsText.innerHTML = "¡Demasiados intentos fallidos! Acceso bloqueado.";
+                    document.querySelector("button").disabled = true;
+                } else {
+                    attemptsText.innerHTML = `Contraseña incorrecta. Te quedan ${maxAttempts - attempts} intentos.`;
+                }
+            }
+        }
+
+        function typeWriter() {
+            const message = `
+Mi amor, mi Lore hermosa,
+
+No sabes cuánto me duele haberte lastimado con mis palabras. No hay excusas para mi comportamiento, y lo reconozco. Fui un idiota, un tonto sin pensar en lo que decía, sin medir lo mucho que podía herirte. Y eso me duele más de lo que imaginas, porque lo último que quiero en esta vida es hacerte daño.
+
+Sé que estás malita y créeme, eso también me afecta. Sabes lo mucho que me importa tu bienestar, lo apegado que soy a tu estado de ánimo. No me pidas que te vea mal sin emociones porque simplemente no puedo. Me rompe el alma verte así y peor aún saber que, en lugar de ser tu apoyo, terminé siendo parte del problema.
+
+Si no quieres perdonarme, lo entenderé. Aceptaré las consecuencias de mis errores, pero hay algo que jamás quiero que olvides: te amo. Te amo con cada parte de mí, con todo mi corazón. Adoro cada cosa de ti, cada gesto, cada risa, cada momento a tu lado.
+
+Y hay algo más que debo confesarte: mentí. No perdí el interés. Nunca lo perdí. Fue una estupidez de mi parte decirlo, porque si hay algo que sigue intacto y más fuerte que nunca es el amor inmenso que siento por ti, Lorena Michell Rodríguez Calderón. Eres mi amor, mi bb, mi enana, mi princesa, mi Lore.
+
+Te extraño muchísimo. No sabes cuánto daría por abrazarte en este momento, por verte, por escucharte reír otra vez. Me hace falta todo de ti, cada detalle, cada instante a tu lado.
+
+Diseñé esta forma de enviarte esta carta porque quiero que veas lo que puedo ser capaz de hacer por ti, por tu perdón, por demostrarte lo mucho que me importas, bb. Porque haría cualquier cosa para que me creas cuando te digo que te amo más de lo que las palabras pueden expresar.
+
+Quiero que mejores, que te sientas bien, que recuperes esa luz hermosa que ilumina mi vida. Y aunque no me perdones hoy, aunque tome tiempo, quiero que sepas que aquí estaré, amándote como siempre, como nunca, como solo tú mereces ser amada.
+
+Te amo demasiado, mi amor. Perdóname.
+
+Siempre tuyo,
+Matty ❤️
+            `;
+            let i = 0;
+            const speed = 50;
+            const messageDiv = document.getElementById('message');
+
+            function type() {
+                if (i < message.length) {
+                    messageDiv.innerHTML += message.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+    </script>
+</body>
+</html>
